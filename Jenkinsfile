@@ -50,7 +50,8 @@ pipeline {
                                 execPattern: 'customer/target/jacoco.exec',
                                 classPattern: 'customer/target/classes',
                                 sourcePattern: 'customer/src/main/java',
-                                inclusionPattern: '**/*.class'
+                                inclusionPattern: '**/*.class',
+                                exclusionPattern: '**/*Application.class,**/config/**,**/exception/**,**/constants/**'
                             )
                         }
                     }
