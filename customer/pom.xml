@@ -83,7 +83,7 @@
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
-                        </goals>
+                        </goals> 
                     </execution>
                     <execution>
                         <id>report</id>
