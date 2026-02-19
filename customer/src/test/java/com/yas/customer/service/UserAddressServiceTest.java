@@ -131,7 +131,7 @@ class UserAddressServiceTest {
             () -> userAddressService.getAddressDefault()
         );
 
-        assertThat(exception.getMessage()).isEqualTo(Constants.ErrorCode.USER_ADDRESS_NOT_FOUND);
+        assertThat(exception.getMessage()).isEqualTo("User address not found");
     }
 
     @Test
@@ -274,7 +274,7 @@ class UserAddressServiceTest {
             () -> userAddressService.deleteAddress(10L)
         );
 
-        assertThat(exception.getMessage()).isEqualTo(Constants.ErrorCode.USER_ADDRESS_NOT_FOUND);
+        assertThat(exception.getMessage()).isEqualTo("User address not found");
     }
 
     @Test
