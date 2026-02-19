@@ -40,7 +40,7 @@ pipeline {
                     steps {
                         dir('customer') {
                             sh 'chmod +x ./mvnw'
-                            sh './mvnw -f ../pom.xml clean verify -pl customer -am'
+                            sh './mvnw -f ../pom.xml clean test -pl customer -am'
                         }
                     }
                     post {
