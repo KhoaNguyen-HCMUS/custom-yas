@@ -5,11 +5,11 @@ pipeline {
         stage('Security Scan - Gitleaks') {
             steps {
                 sh '''
-                    docker run --rm \
-                      -v "$PWD":/work \
-                      -w /work \
-                      zricethezav/gitleaks:v8.18.4 \
-                      detect --source="." --config="/work/gitleaks.toml" --verbose --no-git
+                    GITLEAKS_VERSION=v8.18.4
+                    curl -sSL https://github.com/gitleaks/gitleaks/releases/download/$GITLEAKS_VERSION/gitleaks_${GITLEAKS_VERSION#v}_linux_x64.tar.gz -o gitleaks.tgz
+                    tar -xzf gitleaks.tgz gitleaks
+                    chmod +x gitleaks
+                    ./gitleaks detect --source="." --config="./gitleaks.toml" --verbose --no-git
                 '''
             }
         }
