@@ -103,7 +103,8 @@ pipeline {
                                 execPattern: 'rating/target/jacoco.exec',
                                 classPattern: 'rating/target/classes',
                                 sourcePattern: 'rating/src/main/java',
-                                inclusionPattern: '**/*.class'
+                                inclusionPattern: '**/*.class',
+                                exclusionPattern: '**/*Application.class,**/config/**,**/exception/**,**/constants/**'
                             )
                         }
                     }
