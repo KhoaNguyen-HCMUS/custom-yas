@@ -103,7 +103,8 @@ pipeline {
                                 execPattern: 'media/target/jacoco.exec',
                                 classPattern: 'media/target/classes',
                                 sourcePattern: 'media/src/main/java',
-                                inclusionPattern: '**/*.class'
+                                inclusionPattern: '**/*.class',
+                                exclusionPattern: '**/*Application.class,**/config/**,**/exception/**,**/constants/**'
                             )
                         }
                     }
