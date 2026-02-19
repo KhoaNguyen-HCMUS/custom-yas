@@ -83,5 +83,40 @@ pipeline {
                 }
             }
         }
+
+        stage('CI - Rating Service') {
+            when {
+                changeset "rating/**"
+            }
+            stages {
+                stage('Test Rating') {
+                    steps {
+                        dir('rating') {
+                            sh 'chmod +x ./mvnw'
+                            sh './mvnw -f ../pom.xml clean test -pl rating -am'
+                        }
+                    }
+                    post {
+                        always {
+                            junit 'rating/target/surefire-reports/*.xml'
+                            jacoco(
+                                execPattern: 'rating/target/jacoco.exec',
+                                classPattern: 'rating/target/classes',
+                                sourcePattern: 'rating/src/main/java',
+                                inclusionPattern: '**/*.class'
+                            )
+                        }
+                    }
+                }
+                stage('Build Rating') {
+                    steps {
+                        dir('rating') {
+                            sh 'chmod +x ./mvnw'
+                            sh './mvnw -f ../pom.xml clean package -pl rating -am -DskipTests'
+                        }
+                    }
+                }
+            }
+        }
     }
 }
