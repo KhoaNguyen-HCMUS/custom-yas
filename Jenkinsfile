@@ -2,6 +2,18 @@ pipeline {
     agent any
 
     stages {
+        stage('Security Scan - Gitleaks') {
+            steps {
+                sh '''
+                    GITLEAKS_VERSION=v8.18.4
+                    curl -sSL https://github.com/gitleaks/gitleaks/releases/download/$GITLEAKS_VERSION/gitleaks_${GITLEAKS_VERSION#v}_linux_x64.tar.gz -o gitleaks.tgz
+                    tar -xzf gitleaks.tgz gitleaks
+                    chmod +x gitleaks
+                    ./gitleaks detect --source="." --config="./gitleaks.toml" --verbose --no-git
+                '''
+            }
+        }
+
         stage('CI - Product Service') {
             when {
                 changeset "product/**"
