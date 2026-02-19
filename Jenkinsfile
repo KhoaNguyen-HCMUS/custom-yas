@@ -2,6 +2,23 @@ pipeline {
     agent any
 
     stages {
+        stage('SonarCloud Analysis') {
+            steps {
+                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                    dir('product') {
+                        sh '''
+                            chmod +x ./mvnw
+                            ./mvnw -f ../pom.xml clean compile org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                              -Dsonar.projectKey=KhoaNguyen-HCMUS_custom-yas \
+                              -Dsonar.organization=khoanguyen-hcmus \
+                              -Dsonar.host.url=https://sonarcloud.io \
+                              -Dsonar.token=$SONAR_TOKEN
+                        '''
+                    }
+                }
+            }
+        }
+
         stage('CI - Product Service') {
             when {
                 changeset "product/**"
