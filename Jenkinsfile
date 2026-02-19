@@ -6,9 +6,8 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                     sh '''
-                        chmod +x ./mvnw
-                        
-                        ./mvnw clean compile org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                        chmod +x customer/mvnw
+                        customer/mvnw clean compile org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
                           -Dsonar.projectKey=KhoaNguyen-HCMUS_custom-yas \
                           -Dsonar.organization=khoanguyen-hcmus \
                           -Dsonar.host.url=https://sonarcloud.io \
