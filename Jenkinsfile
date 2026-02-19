@@ -83,5 +83,41 @@ pipeline {
                 }
             }
         }
+
+        stage('CI - Media Service') {
+            when {
+                changeset "media/**"
+            }
+            stages {
+                stage('Test Media') {
+                    steps {
+                        dir('media') {
+                            sh 'chmod +x ./mvnw'
+                            sh './mvnw -f ../pom.xml clean test -pl media -am'
+                        }
+                    }
+                    post {
+                        always {
+                            junit 'media/target/surefire-reports/*.xml'
+                            jacoco(
+                                execPattern: 'media/target/jacoco.exec',
+                                classPattern: 'media/target/classes',
+                                sourcePattern: 'media/src/main/java',
+                                inclusionPattern: '**/*.class',
+                                exclusionPattern: '**/*Application.class,**/config/**,**/exception/**,**/constants/**'
+                            )
+                        }
+                    }
+                }
+                stage('Build Media') {
+                    steps {
+                        dir('media') {
+                            sh 'chmod +x ./mvnw'
+                            sh './mvnw -f ../pom.xml clean package -pl media -am -DskipTests'
+                        }
+                    }
+                }
+            }
+        }
     }
 }
