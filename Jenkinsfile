@@ -2,6 +2,18 @@ pipeline {
     agent any
 
     stages {
+        stage('Security Scan - Gitleaks') {
+            steps {
+                sh '''
+                    docker run --rm \
+                      -v "$PWD":/work \
+                      -w /work \
+                      zricethezav/gitleaks:v8.18.4 \
+                      detect --source="." --config="/work/gitleaks.toml" --verbose --no-git
+                '''
+            }
+        }
+
         stage('CI - Product Service') {
             when {
                 changeset "product/**"
